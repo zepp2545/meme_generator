@@ -1,11 +1,15 @@
 <div class="main_wrapper">
 
   <h1>Meme Generator</h1>
-  <p>The simplest Meme Generator. Just add some text to your image and post on facebook!!</p>
+  <p>The simplest Meme Generator. Just add some text to your image and post it on facebook!!</p>
 
-  <%= render 'form', post: @post %>
-
-  <%= link_to 'Back', posts_path %>
+  <div class="form-wrapper">
+    <h2>Step 1</h2>
+    <p>Choose an image to make your own meme with.</p>
+    <h2>Step 2</h2>
+    <p>Add text on the photo. Upper text will show on the top. Lower text will show on the bottom.</p>
+    <%= render 'form', post: @post %>
+  </div>
 
 </div>
 
