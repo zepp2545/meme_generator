@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
+
   # GET /posts
   # GET /posts.json
   def index
@@ -25,16 +26,15 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
+    
+    @post[:image] = Meme.new(@post[:iamge], @post[:upper_text], @post[:down_text]).make_meme
 
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
-      else
-        format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
-    end
+    if @post.save
+      redirect_to 'posts#confirm'
+    else
+      render 'posts#new'
+    end 
+
   end
 
   # PATCH/PUT /posts/1
@@ -71,4 +71,6 @@ class PostsController < ApplicationController
     def post_params
       params.fetch(:post, {})
     end
+
+
 end
