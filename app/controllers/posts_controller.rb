@@ -2,12 +2,6 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
 
-  # GET /posts
-  # GET /posts.json
-  def index
-    @posts = Post.all
-  end
-
   # GET /posts/1
   # GET /posts/1.json
   def show
@@ -26,15 +20,19 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
-    
-    @post[:image] = Meme.new(@post[:iamge], @post[:upper_text], @post[:down_text]).make_meme
+    @post.image = Meme.new(@post[:iamge], @post[:upper_text], @post[:down_text]).store_meme
 
     if @post.save
-      redirect_to 'posts#confirm'
+      redirect_to confirm_path(@post)
     else
       render 'posts#new'
     end 
 
+  end
+
+
+  def confirm
+    @post = Post.find_by(id: params[:id])
   end
 
   # PATCH/PUT /posts/1
@@ -69,7 +67,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.fetch(:post, {})
+      params.require(:post).permit(:image, :upper_text, :lower_text)
     end
 
 
