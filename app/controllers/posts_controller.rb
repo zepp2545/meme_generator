@@ -20,7 +20,7 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
-    @post.image = Meme.new(@post[:iamge], @post[:upper_text], @post[:down_text]).store_meme
+    @post.image = Meme.new(params[:post][:image].tempfile.path, @post[:upper_text], @post[:lower_text]).store_meme
 
     if @post.save
       redirect_to confirm_path(@post)

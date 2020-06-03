@@ -3,17 +3,12 @@ class Meme
     def initialize(path_to_temp, upper_text, lower_text)
 
         @path_to_temp = path_to_temp
-        @upper_text = upper_text
-        @lower_text = lower_text
+        @upper_text = Text_info.new(modify_text(upper_text), set_point_size(upper_text))
+        @lower_text = Text_info.new(modify_text(lower_text), set_point_size(lower_text))
         @text_color = 'white'
         @text_font = 'Helvetica'
-        @text_pointsize = ""
-        @draw = ""
 
     end
-
-    
-
 
     def store_meme
         image = make_meme
@@ -21,14 +16,15 @@ class Meme
 
         case Rails.env 
            when 'production'
+            # need to change image name later
             bucket = storage.directories.get(ENV['AWS_BUCKET'])
-            png_path = ENV['AWS_PRO_FOLDER']+ '/' + id.to_s + '.png'
+            png_path = ENV['AWS_PRO_FOLDER']+ '/' + rand(1..1000).to_s + '.png'
             image_uri = image.path 
             file = bucket.files.create(key: png_path, public: true, body: open(image_uri))
             return 'https://s3-ap-northeast-1.amazonaws.com/' + ENV['AWS_BUCKET'] + '/' + png_path
            when 'development'
             bucket = storage.directories.get(ENV['AWS_BUCKET'])
-            png_path = ENV['AWS_DEV_FOLDER'] + '/' + id.to_s + '.png'
+            png_path = ENV['AWS_DEV_FOLDER'] + '/' + rand(1..1000).to_s + '.png'
             image_uri = image.path 
             file = bucket.files.create(key: png_path, public: true, body: open(image_uri))
             return 'https://s3-ap-northeast-1.amazonaws.com/' + ENV['AWS_BUCKET'] + '/' + png_path
@@ -40,18 +36,25 @@ class Meme
     private 
         def make_meme
 
-            image = MiniMagick::Image.new(path_to_temp)
+            image = MiniMagick::Image.open(@path_to_temp)
 
+            # draw upper text in the image
             image.combine_options do |i|
                 i.font @text_font
                 i.fill @text_color
-                i.pointsize @pointsize
-                i.draw "text 0,0 '{@upper_text}'"
-                i.draw "text 0,#{image[width].to_i * 0.8} '#{@lower_text}'"
+                i.pointsize @upper_text.pointsize
+                i.draw "text 0,0 '#{@upper_text.text}'"
+            end
+
+            # draw lower text in the image
+            image.combine_options do |i|
+                i.font @text_font
+                i.fill @text_color
+                i.pointsize @lower_text.pointsize
+                i.draw "text 0,500 '#{@lower_text.text}'"
             end
 
         end
-
 
         def set_storage
 
@@ -63,5 +66,31 @@ class Meme
             )
 
         end
+
+        def modify_text(text)
+
+            if text.length <  15
+              text
+            else
+              modified_text = text[0..15]
+              modified_text < '\n'
+              modified_text < text[16..30]
+              modified_upper_text = text_info.new(@upper_text, )
+              modified_text
+            end
+
+        end
+
+        def set_point_size(text)
+
+            if text.length < 15
+                return 120
+            else
+                return 80
+            end
+
+        end
+
+        Text_info = Struct.new(:text, :pointsize)
 
 end
