@@ -3,8 +3,8 @@ class Meme
     def initialize(path_to_temp, upper_text, lower_text)
 
         @path_to_temp = path_to_temp
-        @upper_text = Text_info.new(modify_text(upper_text), set_point_size(upper_text))
-        @lower_text = Text_info.new(modify_text(lower_text), set_point_size(lower_text))
+        @upper_text = Text_info.new(modify_text(upper_text), set_point_size(upper_text), 'North')
+        @lower_text = Text_info.new(modify_text(lower_text), set_point_size(lower_text), 'South')
         @text_color = 'white'
         @text_font = 'Helvetica'
 
@@ -36,13 +36,14 @@ class Meme
     private 
         def make_meme
 
-            image = MiniMagick::Image.open(@path_to_temp)
+            image = MiniMagick::Image.new(@path_to_temp)
 
             # draw upper text in the image
             image.combine_options do |i|
                 i.font @text_font
                 i.fill @text_color
                 i.pointsize @upper_text.pointsize
+                i.gravity @upper_text.gravity
                 i.draw "text 0,0 '#{@upper_text.text}'"
             end
 
@@ -51,7 +52,8 @@ class Meme
                 i.font @text_font
                 i.fill @text_color
                 i.pointsize @lower_text.pointsize
-                i.draw "text 0,500 '#{@lower_text.text}'"
+                i.gravity @lower_text.gravity
+                i.draw "text 0,0 '#{@lower_text.text}'"
             end
 
         end
@@ -69,28 +71,38 @@ class Meme
 
         def modify_text(text)
 
-            if text.length <  15
-              text
-            else
-              modified_text = text[0..15]
-              modified_text < '\n'
-              modified_text < text[16..30]
-              modified_upper_text = text_info.new(@upper_text, )
-              modified_text
+            text = text.split
+            rows = text.size % 4 + 1
+
+            if rows > 1
+              text.each_with_index.reduce("") do |string, (element, index)|
+                if index % 4 =~ /^[0-9]$/
+                  string += element + "\n"
+                else
+                  string += element + " "
+                end
+              end
+            elsif rows = 1
+              text.join(' ')
             end
 
         end
 
         def set_point_size(text)
 
-            if text.length < 15
-                return 120
-            else
+            text = text.split
+            rows = text.size % 4 + 1
+
+            if rows >= 3
                 return 80
+            elsif rows == 2
+                return 100
+            else
+                return 150
             end
 
         end
 
-        Text_info = Struct.new(:text, :pointsize)
+        Text_info = Struct.new(:text, :pointsize, :gravity)
 
 end
