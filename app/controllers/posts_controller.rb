@@ -35,6 +35,15 @@ class PostsController < ApplicationController
     @post = Post.find_by(id: params[:id])
   end
 
+
+  def download
+    @post = Post.find_by(id: params[:id])
+    data = open @post.image, "r"
+
+    send_data data.read, filename: @post.image.split("/").last
+
+  end
+
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update

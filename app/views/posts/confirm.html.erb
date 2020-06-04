@@ -1,1 +1,13 @@
-<%= image_tag @post.image, width: '300' %>
+<div class="main_wrapper confirm_wrapper text-center">
+
+
+  <%= image_tag @post.image, width: '500' %>
+
+  <div class="links my-3">
+     <%= button_to 'download', download_path(@post), method: :get, class: 'submit_button' %>
+  
+  </div>
+  
+  
+</div>
+

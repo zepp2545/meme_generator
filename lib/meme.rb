@@ -6,7 +6,7 @@ class Meme
         @upper_text = Text_info.new(modify_text(upper_text), set_point_size(upper_text), 'North')
         @lower_text = Text_info.new(modify_text(lower_text), set_point_size(lower_text), 'South')
         @text_color = 'white'
-        @text_font = 'Helvetica'
+        @text_font = 'Impact'
 
     end
 
@@ -94,11 +94,11 @@ class Meme
             rows = text.size % 4 + 1
 
             if rows >= 3
-                return 80
+                return 160
             elsif rows == 2
-                return 100
+                return 200
             else
-                return 150
+                return 250
             end
 
         end
