@@ -76,7 +76,7 @@ class Meme
 
             if rows > 1
               text.each_with_index.reduce("") do |string, (element, index)|
-                if index % 4 =~ /^[0-9]$/
+                if index % 4 == 3
                   string += element + "\n"
                 else
                   string += element + " "
