@@ -95,7 +95,7 @@ class Meme
                 end   
             end
             
-            modified_text.chomp
+            modified_text.gsub("'", "\\\\'").chomp
             # if rows > 1
             #   text.each_with_index.reduce("") do |string, (element, index)|
             #     if index % 4 == 3
