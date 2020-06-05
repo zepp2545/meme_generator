@@ -20,7 +20,7 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
-    @post.image = Meme.new(params[:post][:image].tempfile.path, @post[:upper_text], @post[:lower_text]).store_meme
+    @post.image = Meme.new(params[:post][:image].tempfile.path, @post.text_color, @post.upper_text, @post.lower_text).store_meme
 
     if @post.save
       redirect_to confirm_path(@post)
@@ -76,7 +76,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:image, :upper_text, :lower_text)
+      params.require(:post).permit(:image, :text_color, :upper_text, :lower_text)
     end
 
 

@@ -1,12 +1,12 @@
 class Meme
 
-    def initialize(path_to_temp, upper_text, lower_text)
+    def initialize(path_to_temp, text_color, upper_text, lower_text)
 
         @path_to_temp = path_to_temp
         @upper_text = Text_info.new(modify_text(upper_text), set_point_size(upper_text), 'North')
         @lower_text = Text_info.new(modify_text(lower_text), set_point_size(lower_text), 'South')
-        @text_color = 'white'
-        @text_font = 'Impact'
+        @text_color = text_color
+        @text_font = '.font/TechHeadlines-3Pzp.ttf'
 
     end
 
@@ -44,7 +44,7 @@ class Meme
                 i.fill @text_color
                 i.pointsize @upper_text.pointsize
                 i.gravity @upper_text.gravity
-                i.draw "text 0,0 '#{@upper_text.text}'"
+                i.draw "text 0,50 '#{@upper_text.text}'"
             end
 
             # draw lower text in the image
@@ -71,7 +71,7 @@ class Meme
 
         def modify_text(text)
 
-            text = text.split
+            text = text.upcase.split
             rows = text.size % 4 + 1
 
             if rows > 1
@@ -94,11 +94,11 @@ class Meme
             rows = text.size % 4 + 1
 
             if rows >= 3
-                return 160
+                return 100
             elsif rows == 2
-                return 200
+                return 120
             else
-                return 250
+                return 140
             end
 
         end
