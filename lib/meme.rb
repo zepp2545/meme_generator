@@ -112,14 +112,20 @@ class Meme
 
         def set_point_size(text)
 
-            rows = text.split("\n").size
+            rows = modify_text(text).split(/\R/).size
 
-            if rows >= 3
-                return 30
-            elsif rows == 2
-                return 40
+            if text.size <11
+                return 75
+            elsif text.size < 16
+                return 55
             else
-                return 50
+                if rows >= 3
+                    return 40
+                elsif rows == 2
+                    return 45
+                else
+                    return 49
+                end    
             end
 
         end
