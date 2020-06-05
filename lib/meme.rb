@@ -37,6 +37,7 @@ class Meme
         def make_meme
 
             image = MiniMagick::Image.new(@path_to_temp)
+            image.resize "500x"
 
             # draw upper text in the image
             image.combine_options do |i|
@@ -44,7 +45,7 @@ class Meme
                 i.fill @text_color
                 i.pointsize @upper_text.pointsize
                 i.gravity @upper_text.gravity
-                i.draw "text 0,50 '#{@upper_text.text}'"
+                i.draw "text 0,0 '#{@upper_text.text}'"
             end
 
             # draw lower text in the image
@@ -71,34 +72,54 @@ class Meme
 
         def modify_text(text)
 
-            text = text.upcase.split
-            rows = text.size % 4 + 1
+            text_length = text.size
+            modified_text = ""
+            s_index = 0
+            f_index = 0
 
-            if rows > 1
-              text.each_with_index.reduce("") do |string, (element, index)|
-                if index % 4 == 3
-                  string += element + "\n"
-                else
-                  string += element + " "
-                end
-              end
-            elsif rows = 1
-              text.join(' ')
+            text_length.times do |index|
+                if index == text_length-1
+                    f_index = index
+                    modified_text += text[s_index..f_index]  
+                elsif index % 18 == 17
+                    if index % 18 == 17 and text[index] == " "
+                        f_index = index
+                        modified_text += (text[s_index..f_index] + "\n")
+                        s_index = f_index+1
+                    else
+                        modified_text += (text[s_index..f_index] + "\n")
+                        s_index = f_index+1   
+                    end    
+                elsif text[index] == " "
+                    f_index = index
+                end   
             end
+            
+            modified_text.chomp
+            # if rows > 1
+            #   text.each_with_index.reduce("") do |string, (element, index)|
+            #     if index % 4 == 3
+            #       string += element + "\n"
+            #     else
+            #       string += element + " "
+            #     end
+            #   end
+            # elsif rows = 1
+            #   text.join(' ')
+            # end
 
         end
 
         def set_point_size(text)
 
-            text = text.split
-            rows = text.size % 4 + 1
+            rows = text.split("\n").size
 
             if rows >= 3
-                return 100
+                return 30
             elsif rows == 2
-                return 120
+                return 40
             else
-                return 140
+                return 50
             end
 
         end
