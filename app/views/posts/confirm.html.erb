@@ -3,9 +3,9 @@
 
   <%= image_tag @post.image, width: '500' %>
 
-  <div class="links my-3">
+  <div class="links my-3 text-left">
      <%= button_to 'download', download_path(@post), method: :get, class: 'submit_button' %>
-  
+     <%= link_to 'Back', new_post_path, class: "d-inline-block my-3" %>
   </div>
   
   
