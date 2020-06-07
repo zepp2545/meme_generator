@@ -18,13 +18,13 @@ class Meme
            when 'production'
             # need to change image name later
             bucket = storage.directories.get(ENV['AWS_BUCKET'])
-            png_path = ENV['AWS_PRO_FOLDER']+ '/' + rand(1..1000).to_s + '.png'
+            png_path = ENV['AWS_PRO_FOLDER']+ '/' + SecureRandom.uuid + '.png'
             image_uri = image.path 
             file = bucket.files.create(key: png_path, public: true, body: open(image_uri))
             return 'https://s3-ap-northeast-1.amazonaws.com/' + ENV['AWS_BUCKET'] + '/' + png_path
            when 'development'
             bucket = storage.directories.get(ENV['AWS_BUCKET'])
-            png_path = ENV['AWS_DEV_FOLDER'] + '/' + rand(1..1000).to_s + '.png'
+            png_path = ENV['AWS_DEV_FOLDER'] + '/' + SecureRandom.uuid + '.png'
             image_uri = image.path 
             file = bucket.files.create(key: png_path, public: true, body: open(image_uri))
             return 'https://s3-ap-northeast-1.amazonaws.com/' + ENV['AWS_BUCKET'] + '/' + png_path
@@ -106,14 +106,14 @@ class Meme
             if text.size <11
                 return 75
             elsif text.size < 16
-                return 55
+                return 50
             else
                 if rows >= 3
-                    return 40
+                    return 38
                 elsif rows == 2
-                    return 45
+                    return 43
                 else
-                    return 49
+                    return 47
                 end    
             end
 

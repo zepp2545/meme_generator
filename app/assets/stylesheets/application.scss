@@ -1,8 +1,23 @@
-@import "bootstrap";
+@import "semantic-ui";
 
+body{
+    font-size: 16px;
+}
+
+.wrapper{
+    padding: 30px;
+}
 
 .main_wrapper{
     margin: 30px auto;
+}
+
+.header{
+    margin-bottom: 25px !important;
+}
+
+.ui.form{
+    margin-bottom: 25px;
 }
 
 .submit_button{
@@ -25,3 +40,13 @@
 .confirm_wrapper{
     max-width: 500px;
 }
+
+.link_group{
+    margin-top: 20px;
+}
+
+.back_link{
+    display: inline-block;
+    margin-top: 15px;
+}
+

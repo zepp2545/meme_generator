@@ -10,8 +10,17 @@
   </head>
 
   <body>
-   <div class="container">
-     <%= yield %>
+   <div class="wrapper">
+      <div class="ui container">
+        <h1 class="ui icon header aligned">
+          <i class="settings icon"></i>
+          <div class="content">
+            Meme Generator
+            <div class="sub header">The simplest Meme Generator. Just add some text on your image.</div>
+          </div>
+        </h1>
+        <%= yield %>
+      </div>
    </div>
   </body>
 </html>
