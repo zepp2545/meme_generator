@@ -2,10 +2,11 @@
 インターネットミーム（画像にテキストを埋め込んだ画像ネタ）を生成してくれるアプリです。
 こんな感じにミームを生成してくれます。
 <br>
-[ミーム画像]https://user-images.githubusercontent.com/61376298/85322788-11faf980-b4f1-11ea-954c-6333e19f9374.png
+![ミーム画像] https://user-images.githubusercontent.com/61376298/85322788-11faf980-b4f1-11ea-954c-6333e19f9374.png
 <br>
-以下がアプリのURLです。
-[Meme Generator]https://memegenerator1.herokuapp.com/
+<br>
+以下がアプリのURLです。<br>
+[Meme Generator] https://memegenerator1.herokuapp.com/
 
 ## アプリ制作背景
 MiniMagickについて学習した際にそのアウトプットとして作成しました。
