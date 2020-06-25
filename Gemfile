@@ -67,3 +67,4 @@ gem 'carrierwave'
 gem 'fog-aws'
 gem 'semantic-ui-sass'
 gem 'jquery-rails'
+gem "rack", ">= 2.2.3"
